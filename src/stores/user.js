@@ -1,25 +1,22 @@
-// 用户仓库 token、setToken、removeToken
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+// 引入定义API仓库
+import { defineStore } from "pinia"
+// 引入登录接口
+import { staffUserLogin } from '@/api/user'
 
-export const useUserStore = defineStore(
-  'user',
-  () => {
-    const token = ref('')
-    const setToken = (newToken) => {
-      token.value = newToken
+// 创建小仓库
+let useUserStore = defineStore('name',{
+    state:() =>{
+       return{
+        username:''
+       }
+   },
+    // 异步|逻辑地方
+    actions:{
+        async userInfo(){
+          let res =  await staffUserLogin()
+          console.log(res);
+        }
     }
-    const removeToken = () => {
-      token.value = ''
-    }
+})
 
-    return {
-      token,
-      setToken,
-      removeToken
-    }
-  },
-  {
-    persist: true
-  }
-)
+export default useUserStore

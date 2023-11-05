@@ -1,52 +1,61 @@
 import axios from 'axios'
-// 引入用户相关的仓库
-import useUserStore from '@/store/modules/user'
 import { ElMessage } from 'element-plus'
-import router from '@/router'
-
-const baseURL = 'http://big-event-vue-api-t.itheima.net'
-
-const instance = axios.create({
+// 引入进度条
+import { start,close } from '@/utils/nprogress'
+export const baseURL = 'http://zz76zv.natappfree.cc'
+const httpsRequest = axios.create({
   // TODO 1. 基础地址，超时时间
   baseURL: baseURL,
-  timeout: 5000
+  timeout: 5000,
 })
-
-// request实例添加请求与响应式拦截器
-instance.interceptors.request.use(
-  (config) => {
-    // TODO 2. 携带token
-    let userStore = useUserStore()
-    if (userStore.token) {
-      config.headers.Authorization = userStore.token
-    }
-    return config
+httpsRequest.interceptors.request.use((config) => {
+  start()
+  // config配置对象，headers属性请求头，经常给服务器端携带公共参数
+    config.headers.token = localStorage.getItem('user_token')
+  // 返回配置对象 
+  return config
+})
+// 第三步：响应拦截器
+httpsRequest.interceptors.response.use(
+  (response) => {
+    //成功回调
+    close()
+    // 简化数据
+    return response.data
   },
-  (err) => Promise.reject(err)
-)
-// 响应拦截器
-instance.interceptors.response.use(
-  (res) => {
-    // TODO 4. 摘取核心响应数据
-    if (res.data.code == 0) {
-      return res
+  (error) => {
+    // 失败回调：处理http网络错误的
+    // 定义一个变量：存储网路错误信息
+    let message = ''
+    // http状态码
+    let status = error.response.status
+    switch (status) {
+      case 401:
+        message = 'TOKEN过期'
+        break
+      case 403:
+        message = '无权访问'
+        break
+      case 404:
+        message = '请求地址错误'
+        break
+      case 500:
+        message = '服务器出现问题'
+        break
+      default:
+        message = '网路出现问题'
+        break
     }
-    // TODO 3. 处理业务失败
-    // 处理业务失败（抛出错误）
-    ElMessage.error(res.data.message || '服务异常')
-    return Promise.reject(res.data)
+    //提示错误信息
+    ElMessage({
+      type: 'error',
+      message,
+    })
+
+    return Promise.reject(error)
   },
-  (err) => {
-    // TODO 5. 处理401错误
-    //提示错误信息 =>401权限不足 或 token过期 ==>跳转到login
-    if (err.response?.status === 401) {
-      router.push('./login')
-    }
-
-    // 错误的默认情况 =>只需要给到提示
-    ElMessage.error(err.response.data.message || '服务异常')
-    return Promise.reject(err)
-  }
 )
 
-export default instance
+
+export default httpsRequest
+
