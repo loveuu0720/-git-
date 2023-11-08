@@ -50,7 +50,6 @@ const fullScreen = () => {
 // 暗黑模式日间模式切换
 const changeDrak = () => {
   const html = document.documentElement
-  console.log(html);
   dark.value ? html.className = 'dark' : html.className = ''
 }
 // 刷新按钮
@@ -204,7 +203,7 @@ const reLoad = () => {
           <el-main>
             <router-view></router-view>
           </el-main>
-          <el-footer>安心医疗 ©2023 Created by &nbsp; Curen,Kirito,Shabi.</el-footer>
+          <el-footer>安心医疗 ©2023 Created by &nbsp; Curen,Kirito,Lusy.</el-footer>
         </el-container>
       </el-container>
     </div>
@@ -234,7 +233,6 @@ const reLoad = () => {
     justify-content: center;
     font-size: 14px;
     color: #666;
-    background-color: #e6e3e3;
   }
 }
 

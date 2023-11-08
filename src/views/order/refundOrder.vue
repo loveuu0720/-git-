@@ -23,7 +23,10 @@ const getRefundList = async () => {
 }
 // 点击更换状态发请求
 const changeState = async (row) => {
-  await refundStatus(row)
+    getRefundList()
+ let res =  await refundStatus(row)
+ console.log(res);
+ 
   ElMessage.success("修改状态成功")
   getRefundList()
 
