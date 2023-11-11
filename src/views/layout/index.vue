@@ -17,7 +17,8 @@ import {
   FullScreen,
   Sunny,
   MoonNight,
-  Refresh
+  Refresh,
+  Wallet,
 } from '@element-plus/icons-vue'
 import { ref, reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router'
@@ -82,6 +83,12 @@ const reLoad = () => {
                 <Promotion />
               </el-icon>
               <span>医生预约订单管理</span>
+            </el-menu-item>
+            <el-menu-item index="/order/cashOrder">
+              <el-icon>
+                <Wallet/>
+              </el-icon>
+              <span>提现订单管理</span>
             </el-menu-item>
             <el-menu-item index="/order/refundOrder">
               <el-icon>
@@ -203,7 +210,7 @@ const reLoad = () => {
           <el-main>
             <router-view></router-view>
           </el-main>
-          <el-footer>安心医疗 ©2023 Created by &nbsp; Curen,Kirito,Lusy.</el-footer>
+          <el-footer class="footer">安心医疗 ©2023 Created by &nbsp; Curen,Kirito,Lusy.</el-footer>
         </el-container>
       </el-container>
     </div>
@@ -233,6 +240,12 @@ const reLoad = () => {
     justify-content: center;
     font-size: 14px;
     color: #666;
+    box-shadow: 1px 1px 10px 1px #a3a2a2;
+    z-index: 999;
+  }
+  .el-header {
+    z-index: 999;
+    box-shadow: 1px 1px 10px 1px #a3a2a2;
   }
 }
 
@@ -240,6 +253,8 @@ const reLoad = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+
 
   .right {
     width: 250px;

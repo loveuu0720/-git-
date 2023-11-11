@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue'
 import { staffUser } from '@/api/Alluser/staffUser'
-import { Edit, Delete, Plus } from '@element-plus/icons-vue'
+import { Edit, Delete, Plus,Search } from '@element-plus/icons-vue'
 import { deleteStaff } from '@/api/DeleteUser/deleteStaff'
 import { searchStaff } from '@/api/Search/searchStaff'
 import { addStaff } from '@/api/add/index'
@@ -130,7 +130,7 @@ const updateRules = {
           <el-input placeholder="请输入员工用户名" v-model="pageNo.key"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="default" title="请添加搜索条件" @click="searchUser">搜索</el-button>
+          <el-button type="primary" size="default" title="请添加搜索条件" @click="searchUser" :icon="Search">搜索</el-button>
           <el-button size="large" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -166,7 +166,7 @@ const updateRules = {
         </el-table-column>
         <el-table-column label="操作" align="center" width="400px">
           <template #default="{ row, $index }">
-            <el-button type="primary" :icon="Edit" @click="editStaff(row)">编辑</el-button>
+            <el-button type="primary" :icon="Edit" @click="editStaff(row)" class="btn">编辑</el-button>
             <el-popconfirm title="你确定要删除吗?" @confirm="deleteUser(row.id)">
               <template #reference>
                 <el-button type="danger" :icon="Delete">删除</el-button>
@@ -206,7 +206,7 @@ const updateRules = {
         <template #footer>
           <div style="flex: auto">
             <el-button @click="cancel">取消</el-button>
-            <el-button type="primary" @click="submit">确认</el-button>
+            <el-button type="primary" @click="submit" class="btn">确认</el-button>
           </div>
         </template>
       </el-drawer>
@@ -232,7 +232,7 @@ const updateRules = {
         </el-form>
         <template #footer>
           <el-button>取消</el-button>
-          <el-button type="primary" @click="subAdd">确定</el-button>
+          <el-button type="primary" @click="subAdd" class="btn">确定</el-button>
         </template>
       </el-dialog>
     </el-card>
@@ -240,5 +240,12 @@ const updateRules = {
 </template>
 
 <style scoped lang="scss">
+.btn {
+    background: #7c83a5;
+    border: none;
+}
 
+.btn:hover {
+    background: #404455;
+}
 </style>

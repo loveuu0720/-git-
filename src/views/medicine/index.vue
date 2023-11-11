@@ -90,9 +90,14 @@ const addMedicine = async () => {
     imageUrl.value = ''
 }
 // 点击新增的确定回调
-const sumitAdd = async () => {
-    let res = await medicineAdd(drugDetailList)
-
+const sumitAdd = async (e) => {
+    console.log(e);
+        // 关闭盒子
+    dialogAdd.value = !dialogAdd.value
+    await medicineAdd(drugDetailList)
+        // 再次获取数据
+    getMedical()
+    
 
 }
 // 点击取消的回调
@@ -101,24 +106,15 @@ const cancelAdd = () => {
 }
 // 上传成功的回调
 const partmentHandSuccess = async(res) => {
+    console.log(res);
     imageUrl.value = res.data
     drugDetailList.img = imageUrl.value
-    let result =  await downLoadPic(imageUrl.value)
-    if(result.data === "添加成功"){
-        ElMessage.success("添加成功")
-    }else {
-        ElMessage.error("添加失败！")
-    }
-    // 关闭盒子
-    dialogAdd.value = !dialogAdd.value
-    // 再次获取数据
-    getAllMedical()
-    
-    
+    // 下载图片
+    await downLoadPic(imageUrl.value)
 }
 // 表单校验规则
 const updateRules = {
-    name: [
+    drugname: [
         { required: true, message: '请输入药品!', trigger: 'blur' },
     ],
     price: [
@@ -143,7 +139,7 @@ const updateRules = {
             <el-table-column label="价格" prop="price" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column label="药品图片" align="center">
                 <template #="{ row, $index }">
-                    <img :src="`${baseURL}/${row.img}`" style="width: 100px; height: 100px" />
+                    <img :src="row.img" style="width: 100px; height: 100px" />
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center">
@@ -174,7 +170,7 @@ const updateRules = {
                 </el-form-item>
                 <el-form-item label="药品图片">
                     <el-upload class="avatar-uploader" :action="`${baseURL}/common/upload`" :show-file-list="false">
-                        <img v-if="imageUrl" :src="`${baseURL}/${drugDetailList.img}`" class="avatar" />
+                        <img v-if="imageUrl" :src="`${drugDetailList.img}`" class="avatar" />
                     </el-upload>
                 </el-form-item>
             </el-form>
@@ -188,7 +184,7 @@ const updateRules = {
         <!-- 新增的dialog -->
         <el-dialog v-model="dialogAdd" title="新增药品" width="30%" center>
             <el-form :rules="updateRules" :model="drugDetailList" label-position="left" label-width="80px">
-                <el-form-item label="药品名称" prop="name">
+                <el-form-item label="药品名称" prop="drugname">
                     <el-input v-model="drugDetailList.drugname" placeholder="请输入药品名称" />
                 </el-form-item>
                 <el-form-item label="单价" prop="price">
@@ -202,8 +198,14 @@ const updateRules = {
                             on-remove：删除图片
                             before-upload：在文件上传之前的回调
                             -->
-                    <el-upload list-type="picture-card" :action="`${baseURL}/common/upload/img`"
-                        :show-file-list="false" :headers="{ token: token }" :on-success="partmentHandSuccess">
+                    <el-upload 
+                        list-type="picture-card"
+                        :on-preview="handlePictureCardPreview"
+                        :action="`${baseURL}/common/upload/img`"
+                        :show-file-list="false" 
+                        :headers="{ token: token }" 
+                        :on-success="partmentHandSuccess"
+                        >
                         <img style="width: 100%;height: 100%;" v-if="imageUrl" :src="`${baseURL}/img/drug/${drugDetailList.img}`" />
                         <el-icon v-else class="el-upload-list__item-actions">
                                 <Plus />

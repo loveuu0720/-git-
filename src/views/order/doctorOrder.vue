@@ -1,12 +1,12 @@
 <script setup>
-import { ref,onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 // 引入医生预约管理接口
 import { doctorOrder } from '@/api/getAllOrder/doctorOrder'
 // 引入更改状态的接口
 import { refundStatus } from '@/api/ChangeStatus/docotrStatus'
 import { ElMessage } from 'element-plus';
 // 引入baseURL
-import {baseURL} from '../../utils/request'
+import { baseURL } from '../../utils/request'
 // 总页数
 const total = ref(1)
 // 医生数据（数组）
@@ -16,18 +16,18 @@ const pageNo = ref(1)
 // 条数
 const limit = ref(5)
 // 页面一刷新就获取数据
-onMounted(()=>{
+onMounted(() => {
   getDoctorInfo()
 })
 // 封装获取医生预约数据
-const getDoctorInfo = async ()=>{
-let res =  await doctorOrder(pageNo.value,limit.value)
+const getDoctorInfo = async () => {
+  let res = await doctorOrder(pageNo.value, limit.value)
   console.log(res);
   doctorList.value = res.data.records
   total.value = parseInt(res.data.total)
 }
 // 更改订单状态
-const changeDoctor =async (row)=>{
+const changeDoctor = async (row) => {
   console.log(row);
   await refundStatus(row)
   ElMessage.success("修改状态成功")
@@ -51,41 +51,32 @@ const changeDoctor =async (row)=>{
       <el-table-column label="患者姓名" prop="patientuser" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="花费" prop="cost" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="医生头像" width="180px" prop="avatar" align="center" show-overflow-tooltip>
-        <template #="{row,$index}">
-          <img
-            :src="`${baseURL}/${row.img}`"
-            style="width: 150px; height: 180px"
-          />
+        <template #="{ row, $index }">
+          <img :src="`${row.img}`" style="width: 150px; height: 180px" />
         </template>
       </el-table-column>
       <el-table-column label="预约时间" prop="reservationtime" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="是否需要陪诊" prop="comp" align="center" show-overflow-tooltip width="250px">
-        <template #default="{row,$index}">
+        <template #default="{ row, $index }">
           <el-radio-group v-model="row.status" @change="changeDoctor(row)">
-                <el-radio label="1" border >需要</el-radio>
-                <el-radio label="0" border >不需要</el-radio>
-              </el-radio-group>
+            <el-radio class="qwq" label="1" border>需要</el-radio>
+            <el-radio label="0" border>不需要</el-radio>
+          </el-radio-group>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页器 -->
-    <el-pagination
-      v-model:current-page="pageNo"
-      v-model:page-size="limit"
-      :page-sizes="[5, 10, 15]"
-      :background="true"
-      layout=" prev, pager, next, jumper,->,sizes,total"
-      :total="total"
-      @size-change="getDoctorInfo()"
-      @current-change="getDoctorInfo()"
-    />
+    <el-pagination v-model:current-page="pageNo" v-model:page-size="limit" :page-sizes="[5, 10, 15]" :background="true"
+      layout=" prev, pager, next, jumper,->,sizes,total" :total="total" @size-change="getDoctorInfo()"
+      @current-change="getDoctorInfo()" />
   </el-card>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .title {
   text-align: center;
   font-size: 25px;
   margin: -10px 0px 10px 0px;
 }
+
 </style>

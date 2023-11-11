@@ -216,7 +216,7 @@ const updateRules = {
             </el-table-column>
             <el-table-column label="操作" align="center" width="220px">
                 <template #default="{ row, $index }">
-                    <el-button type="primary" :icon="Edit" @click="editDoctor(row)">编辑</el-button>
+                    <el-button type="primary" :icon="Edit" @click="editDoctor(row)" class="btn">编辑</el-button>
                     <el-popconfirm title="你确定要删除吗?" @confirm="deleteUser(row.id)">
                         <template #reference>
                             <el-button type="danger" :icon="Delete">删除</el-button>
@@ -290,4 +290,14 @@ const updateRules = {
     </el-card>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+.btn {
+    background: #7c83a5;
+    border: none;
+}
+
+.btn:hover {
+    background: #404455;
+}
+</style>

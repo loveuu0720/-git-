@@ -68,7 +68,7 @@ const cancel = ()=>{
             </el-table-column>
             <el-table-column label="操作" align="center" width="200px">
                 <template #="{ row, $index }">
-                    <el-button type="primary" :icon="Edit" @click="editSend(row)">寄药</el-button>
+                    <el-button class="btn" type="primary" :icon="Edit" @click="editSend(row)">寄药</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -96,9 +96,16 @@ const cancel = ()=>{
     </el-card>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .title {
   text-align: center;
   font-size: 25px;
+}
+.btn {
+    background: #7c83a5;
+    border: none;
+}
+.btn:hover {
+    background: #404455;
 }
 </style>

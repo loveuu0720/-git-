@@ -44,7 +44,7 @@ const getMeDetail = async (id: any) => {
 <template>
     <transition>
         <el-card style="margin-top: 10px">
-            <h1 class="title">买药  订单管理</h1>
+            <h1 class="title">买药 订单管理</h1>
             <el-table border :data="buyOrderArr" stripe style="width: 100%">
                 <el-table-column type="selection" width="55" />
                 <el-table-column type="index" label="序号" width="55" align="center" />
@@ -67,14 +67,13 @@ const getMeDetail = async (id: any) => {
                 </el-table-column>
                 <el-table-column label="操作" align="center" width="200px">
                     <template #="{ row, $index }">
-                        <el-button type="primary" :icon="Comment" @click="getMeDetail(row.id)">查看详情</el-button>
+                        <el-button type="primary" class="btn" :icon="Comment" @click="getMeDetail(row.id)">查看详情</el-button>
                     </template>
                 </el-table-column>
             </el-table>
             <!-- 分页器 -->
             <el-pagination v-model:current-page="pageNo.page" v-model:page-size="pageNo.pageSize" :page-sizes="[5, 10, 15]"
                 :background="true" layout=" prev, pager, next, jumper,->,sizes,total" :total="total" />
-
             <!-- 抽屉组件：显示详情 -->
             <el-drawer class="drawer" v-model="drawer" direction="rtl" size="40%">
                 <h2 class="title">药品简介</h2>
@@ -102,6 +101,15 @@ const getMeDetail = async (id: any) => {
 </template>
 
 <style scoped lang="scss">
+.btn {
+    background: #7c83a5;
+    border: none;
+}
+
+.btn:hover {
+    background: #404455;
+}
+
 .title {
     text-align: center;
     font-size: 25px;

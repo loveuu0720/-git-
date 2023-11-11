@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 // 引入进度条
 import { start,close } from '@/utils/nprogress'
-export const baseURL = 'http://w5pt4j.natappfree.cc'
+export const baseURL = 'http://mypu28.natappfree.cc'
 const httpsRequest = axios.create({
   // TODO 1. 基础地址，超时时间
   baseURL: baseURL,
@@ -28,7 +28,7 @@ httpsRequest.interceptors.response.use(
     // 定义一个变量：存储网路错误信息
     let message = ''
     // http状态码
-    message = error.response.data
+    message = error.response.data.errMessage
     //提示错误信息
     ElMessage({
       type: 'error',

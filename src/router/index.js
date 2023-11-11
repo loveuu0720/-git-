@@ -17,8 +17,8 @@ const router = createRouter({
       redirect: '/index/index',
       children: [
         {
-          path:'/index/index',
-          component:()=>import('@/views/index/index.vue')
+          path: '/index/index',
+          component: () => import('@/views/index/index.vue')
         },
         {
           path: '/order/doctorOrder',
@@ -29,20 +29,24 @@ const router = createRouter({
           component: () => import('@/views/order/escortOrder.vue')
         },
         {
+          path: '/order/cashOrder',
+          component: () => import('@/views/order/cashOrder.vue')
+        },
+        {
           path: '/order/refundOrder',
           component: () => import('@/views/order/refundOrder.vue')
         },
         {
           path: '/order',
           redirect: '/order/sendOrder',
-          children:[
+          children: [
             {
-              path:'/order/sendOrder',
-              component:()=>import('@/views/order/sendOrder.vue')
+              path: '/order/sendOrder',
+              component: () => import('@/views/order/sendOrder.vue')
             },
             {
-              path:'/order/buyOrder',
-              component:()=>import('@/views/order/buyOrder.vue')
+              path: '/order/buyOrder',
+              component: () => import('@/views/order/buyOrder.vue')
             }
           ]
         },
@@ -77,10 +81,10 @@ const router = createRouter({
           component: () => import('@/views/medicine/index.vue')
         },
         {
-          path:'/hospital',
-          component:()=>import('@/views/hospital/index.vue')
+          path: '/hospital',
+          component: () => import('@/views/hospital/index.vue')
         },
-        
+
       ]
     },
 
@@ -95,8 +99,8 @@ const router = createRouter({
 })
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
-    // 开始进度条
-    start()
+  // 开始进度条
+  start()
   // 在这里可以进行需要的判断和逻辑处理
   // 如果满足条件，调用next()继续路由导航，否则调用next('/login')进行跳转
   const token = localStorage.getItem('user_token')

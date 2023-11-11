@@ -25,8 +25,6 @@ const getRefundList = async () => {
 const changeState = async (row) => {
     getRefundList()
  let res =  await refundStatus(row)
- console.log(res);
- 
   ElMessage.success("修改状态成功")
   getRefundList()
 
@@ -39,7 +37,15 @@ const changeState = async (row) => {
     <el-table border style="margin: 10px 0px" :data="refundList">
       <el-table-column label="序号" width="60px" type="index" align="center"></el-table-column>
       <el-table-column label="订单ID" prop="orderId" align="center" show-overflow-tooltip></el-table-column>
-      <el-table-column label="订单类型" prop="orderType" align="center" show-overflow-tooltip></el-table-column>
+      <el-table-column label="订单类型" prop="orderType" align="center" show-overflow-tooltip>
+        <template #default="{ row, $index }">
+                <el-select v-model="row.state" disabled>
+                  <el-option label="未处理" value="0">未处理</el-option>
+                  <el-option label="申请通过" value="1">申请通过</el-option>
+                  <el-option label="申请拒绝" value="2">申请拒绝</el-option>
+                </el-select>
+              </template>
+      </el-table-column>
       <el-table-column label="退款人ID" prop="patientUserId" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="退款人姓名" prop="patientUserName" align="center" show-overflow-tooltip></el-table-column>
       <el-table-column label="手机号" prop="phone" align="center" show-overflow-tooltip></el-table-column>
